@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install -y tmux vim git
+sudo apt-get upgrade -y
+sudo apt-get install -y tmux vim git make
 sudo apt-get upgrade -y linux-aws
 
 # Update headers and install nvidia drivers

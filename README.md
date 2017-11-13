@@ -1,7 +1,7 @@
 # Overview
 
 These scripts set up [docker] and [nvidia-docker] for an Amazon AWS EC2 p2 instance.
-It hasn't been tested yet (once I know it all works, I'll remove this line).
+In total, it takes about 15-20 minutes to go from a base Ubuntu 16.04 AMI to a fully setup deep learning instance.
 
 The advantage of using these scripts to set up the p2 instance is that you can run your deep learning code inside docker (cpu) or nvidia-docker (gpu).
 This means you don't have to spend time setting up Keras, Tensorflow, Python, Jupyter, etc., setting up that part is a simple `docker pull`.
@@ -13,7 +13,7 @@ The one thing to watch out for is that sometimes docker images don't include the
 
 The two docker images I've been working with are
 
-- [Deepo](https://hub.docker.com/r/ufoym/deepo/)
+- [Deepo][ufoym-deepo]
     - All the things deep learning related in one ~7.5GB image. Doesn't have cpu-based `tensorflow` installed, but this can be done with `pip install tensorflow`.
 - [jupyter-keras](https://github.com/gadenbuie/jupyter-keras)
     - Good for locally working with Keras and Jupyter, but doesn't have `tensorflow-gpu` installed.
@@ -21,6 +21,8 @@ The two docker images I've been working with are
 ## Usage
 
 Launch an Amazon AWS EC2 p2 instance from an Ubuntu 16 AMI, like: `ami-da05a4a0`.
+If you're using the [ufoym/deepo container][ufoym-deepo] above, you'll need at least 12GB of storage for the containers, etc.
+Note this depends on the size of the Docker image you're using, you may need more or less for your instance.
 
 SSH into the instance
 
@@ -61,7 +63,12 @@ sudo nvidia-docker run -it -v /home/ubuntu:/work ufoym/deepo bash
 
 You'll be dropped into another bash shell, this time inside the deep learning container. The home directory of the instance is mapped to `/work` inside the container. When you're done with everything
 
+Quick tip: you can watch GPU performance as your code runs with
 
+```
+watch "nvidia-smi"
+```
 
 [docker]: https://docker.com
 [nvidia-docker]: http://www.nvidia.com/
+[ufoym-deepo]: https://hub.docker.com/r/ufoym/deepo/
